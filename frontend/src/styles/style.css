@@ -1,1 +1,10 @@
 @import url('./global.css');
+
+body{
+    background: black;
+    overflow: hidden;
+}
+
+#galaxy{
+    display: block;
+}
