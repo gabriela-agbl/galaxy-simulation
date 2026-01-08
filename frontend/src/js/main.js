@@ -10,48 +10,29 @@ document.addEventListener('DOMContentLoaded', () => {
     window.addEventListener('resize', resize);
     resize();
 
-    const centerX = galaxy.width / 2;
-    const centerY = galaxy.height / 2;
-
-    const STAR_COUNT = 1500;
     const GALAXY_RADIUS = Math.min(galaxy.width, galaxy.height) * 0.4;
 
-    let stars = [];
-
-    for (let i = 0; i < STAR_COUNT; i++){
-        const r = Math.random() * GALAXY_RADIUS;
-        const angle = Math.random() * Math.PI * 2;
-
-        stars.push({
-            r: r,
-            angle: angle,
-            speed: 0.0005 + 0.002 * (1 - r / GALAXY_RADIUS),
-            size: Math.random() * 1.5 + 0.5
-        });
-    }
-
-    let lastTime = 0;
-
-    function animate(time){
-        const dt = time - lastTime;
-        lastTime = time;
+    async function draw(){
+        const res = await fetch("http://127.0.0.1:5000/step");
+        const stars = await res.json();
 
         ctx.clearRect(0, 0, galaxy.width, galaxy.height);
         ctx.fillStyle = 'white';
 
         for (const star of stars){
-            star.angle += star.speed * dt;
+            const x =
+                galaxy.width / 2 +
+                star.r * GALAXY_RADIUS * Math.cos(star.angle);
 
-            const x = centerX + star.r * Math.cos(star.angle);
-            const y = centerY + star.r * Math.sin(star.angle);
+            const y =
+                galaxy.height / 2 +
+                star.r * GALAXY_RADIUS * Math.sin(star.angle);
 
             ctx.beginPath();
-            ctx.arc(x, y, star.size, 0 , Math.PI * 2);
+            ctx.arc(x, y, 1.2, 0, Math.PI * 2);
             ctx.fill();
         }
-
-        requestAnimationFrame(animate);
+        requestAnimationFrame(draw);
     }
-
-    requestAnimationFrame(animate);
+    draw();
 });
