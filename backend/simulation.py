@@ -4,11 +4,11 @@ import random
 STAR_COUNT = 1500
 GALAXY_RADIUS = 1.0
 
-stars = []´
+stars = []
 
 def init_galaxy():
     global stars
-    stars = []´
+    stars = []
 
     for _ in range(STAR_COUNT):
         r = random.random() * GALAXY_RADIUS
