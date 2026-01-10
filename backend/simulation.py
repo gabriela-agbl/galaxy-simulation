@@ -1,7 +1,7 @@
 import math
 import random
 
-STAR_COUNT = 1500
+STAR_COUNT = 5000
 GALAXY_RADIUS = 1.0
 
 stars = []
